@@ -63,7 +63,7 @@ resource "aws_security_group" "re" {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
-    cidr_blocks = [var.vpc-cidr]
+    cidr_blocks = var.open-nets
   }
 
   # For nginx <->cnm_http/cm communications on the same host only. Ports are bound to loopback adapter.
