@@ -2,6 +2,7 @@ resource "aws_security_group" "re" {
   name        = "RedisEnterprise"
   description = "Redis Enterprise Security Group"
   vpc_id      = "${var.vpc-id}"
+  tags        = merge({ Name = "RedisEnterprise-${var.vpc-name}" }, var.common-tags)
   ###############################################################################
   #                         Ingress
   ###############################################################################
