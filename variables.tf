@@ -46,7 +46,7 @@ variable "data-node-count" {
 
 variable "re-instance-type" {
   description = "The size of instance to run"
-  default     = "m5a.2xlarge"
+  default     = "t2.2xlarge"
 }
 
 variable "re-volume-size" {
