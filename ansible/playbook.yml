@@ -1,0 +1,44 @@
+---
+
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Update Apt Cache
+      apt: update_cache=yes cache_valid_time=86400
+      when: ansible_os_family == "Debian"
+    - name: Ubuntu Packages
+      apt: >
+        pkg={{item}}
+        state=present
+      with_items:
+        - jq
+    - name: create re home dir
+      file:
+        state=directory
+        path="/redis"
+    - name: create ephemeral filesystem
+      filesystem:
+        fstype=ext4
+        dev="/dev/xvdh"
+    - name: mount ephemeral dir filesystem
+      mount:
+        name: /redis/ephemeral
+        src: /dev/xvdh
+        fstype: ext4
+        state: mounted
+    - name: create persistant filesystem
+      filesystem:
+        fstype=ext4
+        dev="/dev/xvdj"
+    - name: mount persistant dir filesystem
+      mount:
+        name: /redis/persistant
+        src: /dev/xvdj
+        fstype: ext4
+        state: mounted
+
+
