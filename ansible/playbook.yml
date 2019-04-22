@@ -16,6 +16,25 @@
         state=present
       with_items:
         - jq
+        - tree
+        - sysstat
+    - name: Stop systemd Resolver
+      systemd:
+        name: systemd-resolved
+        state: stopped
+        enabled: no
+    - name: Removing bad resolver
+      lineinfile: 
+        path: /etc/resolv.conf
+        regexp: 'nameserver\s+127\.0\.0\.53'
+        state: absent
+    - name: Adding known good resolver
+      lineinfile: 
+        path: /etc/resolv.conf
+        regexp: '^nameserver\s+1.1.1.1'
+        line: 'nameserver 1.1.1.1'
+        state: present
+
     - name: create re home dir
       file:
         state=directory
