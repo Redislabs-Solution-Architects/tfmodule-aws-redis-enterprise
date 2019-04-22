@@ -7,7 +7,7 @@ resource "aws_instance" "re" {
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
   key_name               = "${var.vpc-name}"
-  tags                   = merge({ Name = "${var.vpc-name}-private-${element(var.vpc-azs, count.index)}" }, var.common-tags)
+  tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }
 
@@ -37,3 +37,14 @@ resource "aws_volume_attachment" "re-persistant" {
   instance_id = "${element(aws_instance.re.*.id, count.index)}"
 }
 
+resource "aws_eip" "re-eip" {
+  vpc   = true
+  count = var.data-node-count
+  tags  = merge({ Name = "${var.vpc-name}-node-eip-${count.index}" }, var.common-tags)
+}
+
+resource "aws_eip_association" "re-eip-assoc" {
+  count         = var.data-node-count
+  instance_id   = "${element(aws_instance.re.*.id, count.index)}"
+  allocation_id = "${element(aws_eip.re-eip.*.id, count.index)}"
+}
