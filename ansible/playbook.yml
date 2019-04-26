@@ -18,6 +18,7 @@
         - jq
         - tree
         - sysstat
+        - libcap2-bin # Required for our package
     - name: Stop systemd Resolver
       systemd:
         name: systemd-resolved
