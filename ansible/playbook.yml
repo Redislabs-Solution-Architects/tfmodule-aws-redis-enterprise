@@ -18,7 +18,8 @@
         - jq
         - tree
         - sysstat
-        - libcap2-bin # Required for our package
+        - iputils-ping # Needed to check health between nodes
+        - libcap2-bin  # Required for our package
     - name: Stop systemd Resolver
       systemd:
         name: systemd-resolved
