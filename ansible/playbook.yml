@@ -65,12 +65,15 @@
       file:
         state: directory
         path: "/var/tmp/re-download"
-        #    - name: download RE software
-        #      get_url:
-        #        url: https://s3.amazonaws.com/redis-enterprise-software-downloads/5.4.2/redislabs-5.4.2-20-bionic-amd64.tar
-        #        dest: /var/tmp/re-download/redislabs-5.4.2-20-bionic-amd64.tar
     - name: Unarchive software
       unarchive: 
         src: "https://s3.amazonaws.com/redis-enterprise-software-downloads/5.4.2/redislabs-5.4.2-20-bionic-amd64.tar"
         dest: /var/tmp/re-download
         remote_src: yes
+        #    - name: Install the software
+        #      command: "./install.sh -y"
+        #      args:
+        #        chdir: /var/tmp/re-download
+        #        creates: /var/opt/redislabs/log/rlcheck.log
+        #    - name: Ensure redislabs owns the volume
+        #      command: "chown -R redislabs:redislabs /redis"

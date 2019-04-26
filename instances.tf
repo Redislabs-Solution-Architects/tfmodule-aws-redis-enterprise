@@ -15,6 +15,7 @@ resource "aws_ebs_volume" "re-ephemeral" {
   count             = var.data-node-count
   availability_zone = "${element(var.vpc-azs, count.index)}"
   size              = "${var.re-volume-size}"
+  tags              = merge({ Name = "ephemeral-${var.vpc-name}-${count.index}" }, var.common-tags)
 }
 
 resource "aws_volume_attachment" "re-ephemeral" {
@@ -28,6 +29,7 @@ resource "aws_ebs_volume" "re-persistant" {
   count             = var.data-node-count
   availability_zone = "${element(var.vpc-azs, count.index)}"
   size              = "${var.re-volume-size}"
+  tags              = merge({ Name = "persistant-${var.vpc-name}-${count.index}" }, var.common-tags)
 }
 
 resource "aws_volume_attachment" "re-persistant" {
@@ -47,4 +49,5 @@ resource "aws_eip_association" "re-eip-assoc" {
   count         = var.data-node-count
   instance_id   = "${element(aws_instance.re.*.id, count.index)}"
   allocation_id = "${element(aws_eip.re-eip.*.id, count.index)}"
+  depends_on    = ["aws_instance.re", "aws_eip.re-eip"]
 }

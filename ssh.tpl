@@ -1,4 +1,4 @@
-Host ${host_ip}
+Host *
   User ubuntu
   IdentityFile ~/.ssh/${vpc_name}.pem
   ForwardAgent yes
