@@ -39,6 +39,22 @@ resource "aws_volume_attachment" "re-persistant" {
   instance_id = "${element(aws_instance.re.*.id, count.index)}"
 }
 
+resource "aws_ebs_volume" "re-flash" {
+  count = local.count_flash
+  availability_zone = "${element(var.vpc-azs, count.index)}"
+  size              = "${var.re-volume-size}"
+  type              = "io1"
+  iops              = var.flash-iops
+  tags              = merge({ Name = "flash-${var.vpc-name}-${count.index}" }, var.common-tags)
+}
+
+resource "aws_volume_attachment" "re-flash" {
+  count       = var.data-node-count
+  device_name = "/dev/sdi"
+  volume_id   = "${element(aws_ebs_volume.re-flash.*.id, count.index)}"
+  instance_id = "${element(aws_instance.re.*.id, count.index)}"
+}
+
 resource "aws_eip" "re-eip" {
   vpc   = true
   count = var.data-node-count

@@ -55,6 +55,16 @@ variable "re-volume-size" {
   default     = "150"
 }
 
+variable "enable-flash" {
+  description = "Enable Flash Devices"
+  default     = false
+}
+
+variable "flash-iops" {
+  description = "Enable Flash IOPS"
+  default     = "100"
+  }
+
 variable "netrules" {
   type = list
   default = [
