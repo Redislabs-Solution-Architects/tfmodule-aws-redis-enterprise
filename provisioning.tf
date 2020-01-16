@@ -24,7 +24,7 @@ data "template_file" "ansible_inventory" {
     vpc_name = "${var.vpc-name}"
     ncount   = "${count.index}"
   }
-  depends_on = ["aws_instance.re", "aws_eip_association.re-eip-assoc"]
+  depends_on = ["aws_instance.re", "aws_eip_association.re-eip-assoc", "aws_volume_attachment.re-ephemeral"]
 }
 
 data "template_file" "ssh_config" {
@@ -32,7 +32,7 @@ data "template_file" "ssh_config" {
   vars = {
     vpc_name = "${var.vpc-name}"
   }
-  depends_on = ["aws_instance.re", "aws_eip_association.re-eip-assoc"]
+  depends_on = ["aws_instance.re", "aws_eip_association.re-eip-assoc", "aws_volume_attachment.re-ephemeral"]
 }
 
 ###############################################################################

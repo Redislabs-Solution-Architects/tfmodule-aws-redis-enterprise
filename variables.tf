@@ -15,6 +15,7 @@ variable "common-tags" {
 variable "open-nets" {
   type        = list
   description = "CIDRs that will have access to everything"
+  default = []
 }
 
 variable "vpc-cidr" {
@@ -53,3 +54,30 @@ variable "re-volume-size" {
   description = "The size of the two volumes to attach"
   default     = "150"
 }
+
+variable "netrules" {
+  type = list
+  default = [
+    {
+      type = "ingress"
+      from_port = "22"
+      to_port   = "22"
+      protocol  = "tcp"
+      cidr      = ["10.0.0.0/8"]
+    },
+    {
+      type = "egress"
+      from_port = "0"
+      to_port   = "65535"
+      protocol  = "tcp"
+      cidr      = ["0.0.0.0/0"]
+    },
+    {
+      type = "egress"
+      from_port = "0"
+      to_port   = "65535"
+      protocol  = "udp"
+      cidr      = ["0.0.0.0/0"]
+    }
+    ]
+  }
