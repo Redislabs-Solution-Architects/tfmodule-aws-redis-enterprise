@@ -6,7 +6,7 @@ resource "null_resource" "remote-config" {
     connection {
       user        = "ubuntu"
       host        = "${element(aws_eip.re-eip.*.public_ip, count.index)}"
-      private_key = "${file("~/.ssh/${var.vpc-name}.pem")}"
+      private_key = "${file(local.ssh_key_path)}"
       agent       = true
     }
     inline = ["sudo apt update > /dev/null  && sudo apt install -y python python-pip > /dev/null"]
@@ -57,7 +57,7 @@ resource "null_resource" "ssh-setup" {
 resource "null_resource" "ansible-run" {
   count = var.data-node-count
   provisioner "local-exec" {
-    command = "ansible-playbook ${path.module}/ansible/playbook.yml --private-key ~/.ssh/${var.vpc-name}.pem -i /tmp/${var.vpc-name}_node_${count.index}.ini --become -e 'MYENV=1'"
+    command = "ansible-playbook ${path.module}/ansible/playbook.yml --private-key ${local.ssh_key_path} -i /tmp/${var.vpc-name}_node_${count.index}.ini --become -e 'MYENV=1'"
   }
   depends_on = ["null_resource.remote-config"]
 }
