@@ -49,7 +49,7 @@ resource "aws_ebs_volume" "re-flash" {
 }
 
 resource "aws_volume_attachment" "re-flash" {
-  count       = var.data-node-count
+  count       = local.count_flash
   device_name = "/dev/sdi"
   volume_id   = "${element(aws_ebs_volume.re-flash.*.id, count.index)}"
   instance_id = "${element(aws_instance.re.*.id, count.index)}"
