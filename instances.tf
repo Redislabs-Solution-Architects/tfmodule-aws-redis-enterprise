@@ -6,7 +6,7 @@ resource "aws_instance" "re" {
   subnet_id              = "${element(var.vpc-subnets, count.index)}"
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
-  key_name               = "${var.vpc-name}"
+  key_name               = local.ssh_key
   tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }

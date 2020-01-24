@@ -7,3 +7,12 @@ provider "aws" {
 locals {
   count_flash = (var.enable-flash == true ? var.data-node-count : 0)
 }
+
+locals {
+  ssh_key_path = (var.ssh-key == "" ? "~/.ssh/${var.vpc-name}.pem" : "~/.ssh/${replace(var.ssh-key, ".pem", "")}.pem")
+}
+
+
+locals {
+  ssh_key= (var.ssh-key == "" ? var.vpc-name : replace(var.ssh-key, ".pem", ""))
+}
