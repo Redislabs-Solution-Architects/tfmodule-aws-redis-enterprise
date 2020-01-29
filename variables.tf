@@ -30,6 +30,12 @@ variable "vpc-name" {
   description = "The Name of the VPC"
 }
 
+variable "ssh-key" {
+  description = "Set if the SSH key you wish to use does not match the VPC name"
+  default = ""
+}
+
+
 variable "vpc-subnets" {
   type        = list
   description = "The list of subnets available to the VPC"

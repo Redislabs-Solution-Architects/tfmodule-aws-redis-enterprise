@@ -6,7 +6,7 @@ resource "aws_instance" "re" {
   subnet_id              = "${element(var.vpc-subnets, count.index)}"
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
-  key_name               = "${var.vpc-name}"
+  key_name               = local.ssh_key
   tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }
@@ -49,7 +49,7 @@ resource "aws_ebs_volume" "re-flash" {
 
 resource "aws_volume_attachment" "re-flash" {
   count       = local.count_flash
-  device_name = "/dev/sdz"
+  device_name = "/dev/sdi"
   volume_id   = "${element(aws_ebs_volume.re-flash.*.id, count.index)}"
   instance_id = "${element(aws_instance.re.*.id, count.index)}"
 }
