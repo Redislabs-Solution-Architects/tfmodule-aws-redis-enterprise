@@ -5,13 +5,23 @@ resource "aws_security_group" "re" {
   tags        = merge({ Name = "RedisEnterprise-${var.vpc-name}" }, var.common-tags)
 }
 
-resource "aws_security_group_rule" "variable_rule" {
-  count             = length(var.netrules)
-  type              = "${lookup(var.netrules[count.index], "type")}"
-  from_port         = "${lookup(var.netrules[count.index], "from_port")}"
-  to_port           = "${lookup(var.netrules[count.index], "to_port")}"
-  protocol          = "${lookup(var.netrules[count.index], "protocol")}"
-  cidr_blocks       = "${lookup(var.netrules[count.index], "cidr")}"
+resource "aws_security_group_rule" "internal_rules" {
+  count             = length(var.internal-rules)
+  type              = "${lookup(var.internal-rules[count.index], "type")}"
+  from_port         = "${lookup(var.internal-rules[count.index], "from_port")}"
+  to_port           = "${lookup(var.internal-rules[count.index], "to_port")}"
+  protocol          = "${lookup(var.internal-rules[count.index], "protocol")}"
+  cidr_blocks       = [var.vpc-cidr]
+  security_group_id = "${aws_security_group.re.id}"
+}
+
+resource "aws_security_group_rule" "external_rules" {
+  count             = length(var.external-rules)
+  type              = "${lookup(var.external-rules[count.index], "type")}"
+  from_port         = "${lookup(var.external-rules[count.index], "from_port")}"
+  to_port           = "${lookup(var.external-rules[count.index], "to_port")}"
+  protocol          = "${lookup(var.external-rules[count.index], "protocol")}"
+  cidr_blocks       = "${lookup(var.external-rules[count.index], "cidr")}"
   security_group_id = "${aws_security_group.re.id}"
 }
 
@@ -23,4 +33,3 @@ resource "aws_security_group_rule" "open_nets" {
   cidr_blocks       = var.open-nets
   security_group_id = "${aws_security_group.re.id}"
 }
-
