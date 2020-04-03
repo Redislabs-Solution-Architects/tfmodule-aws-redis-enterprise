@@ -250,6 +250,13 @@ variable "internal-rules" {
       protocol  = "tcp"
       comment   = "Consul Traffic HTTP"
     },
+    {
+      type = "ingress"
+      from_port = "8300"
+      to_port   = "8300"
+      protocol  = "tcp"
+      comment   = "Consul Traffic Internal"
+    },
     ]
   }
 
