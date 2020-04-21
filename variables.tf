@@ -71,6 +71,11 @@ variable "flash-iops" {
   default     = "100"
   }
 
+variable "allow-public-ssh" {
+  description = "Allow SSH to be open to the public - disabled by default"
+  default     = "0"
+  }
+
 variable "internal-rules" {
   description = "Security rules to allow for connectivity within the VPC"
   type = list
