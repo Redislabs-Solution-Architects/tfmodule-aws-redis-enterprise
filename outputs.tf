@@ -9,3 +9,7 @@ output "re-security-group" {
 output "node-internal-ips" {
   value = aws_instance.re[*].private_ip
 }
+
+output "node-ids" {
+  value = aws_instance.re[*].id
+}
