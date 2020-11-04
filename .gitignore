@@ -1,5 +1,6 @@
 .terraform/*
 test/.terraform/*
+test/terraform.tfstat*
 Gemfile.lock
 ansible/*.retry
 ansible/roles/*

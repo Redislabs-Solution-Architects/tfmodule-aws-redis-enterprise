@@ -6,7 +6,14 @@
   become_method: sudo
   gather_facts: yes
 
+
   pre_tasks:
+    - name: Load vars
+      include_vars: "{{ item }}"
+      with_first_found:
+        - "{{ ansible_hostname }}.yaml"
+        - "default.yaml"
+
     - name: Update Apt Cache
       apt: update_cache=yes cache_valid_time=86400
       when: ansible_os_family == "Debian"
@@ -46,25 +53,26 @@
         fstype: ext4
         #dev: "/dev/xvdh"
         dev: "/dev/nvme1n1"
+      when: enable_volumes
     - name: mount ephemeral dir filesystem
       mount:
         name: /redis/ephemeral
-        #src: /dev/xvdh
         src: /dev/nvme1n1
         fstype: ext4
         state: mounted
+      when: enable_volumes
     - name: create persistant filesystem
       filesystem:
         fstype: ext4
-        #dev: "/dev/xvdj"
         dev: "/dev/nvme2n1"
+      when: enable_volumes
     - name: mount persistant dir filesystem
       mount:
         name: /redis/persistant
-        #src: /dev/xvdj
         src: /dev/nvme2n1
         fstype: ext4
         state: mounted
+      when: enable_volumes
 
   tasks:
     - name: create download directory
