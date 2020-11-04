@@ -15,9 +15,11 @@ module "mymodule" {
   vpc-name         = "myvpc"
   ssh-key          = "test.pem"
   allow-public-ssh = 1
+  enable-flash     = true
+  enable-volumes   = false
   vpc-azs          = ["us-west-1a", "us-west-1b"]
-  common-tags      = {
-    "Owner"        = "maguec"
-    "Project"      = "example"
+  common-tags = {
+    "Owner"   = "maguec"
+    "Project" = "example"
   }
 }

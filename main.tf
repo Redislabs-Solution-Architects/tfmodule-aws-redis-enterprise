@@ -3,6 +3,11 @@ provider "aws" {
   profile = "${var.profile}"
 }
 
+# Allow us to configure volumes
+locals {
+  count_volumes = (var.enable-volumes == true ? var.data-node-count : 0)
+}
+
 # Allow us to enable flash devices
 locals {
   count_flash = (var.enable-flash == true ? var.data-node-count : 0)

@@ -66,6 +66,11 @@ variable "enable-flash" {
   default     = false
 }
 
+variable "enable-volumes" {
+  description = "Enable EBS Devices for Ephemeral and Persistent storage"
+  default     = true
+}
+
 variable "flash-iops" {
   description = "Enable Flash IOPS"
   default     = "100"
