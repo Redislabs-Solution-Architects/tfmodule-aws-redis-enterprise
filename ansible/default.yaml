@@ -1,2 +1,2 @@
 ---
-enable_volumes: "{{ ENABLE_VOLUMES|default(true) }}"
+enable_volumes: "{{ ENABLE_VOLUMES|default(false) }}"
