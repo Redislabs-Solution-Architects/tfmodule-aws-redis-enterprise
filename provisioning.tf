@@ -9,7 +9,7 @@ resource "null_resource" "remote-config" {
       private_key = file(local.ssh_key_path)
       agent       = true
     }
-    inline = ["sudo apt update > /dev/null  && sudo apt install -y python-pip > /dev/null"]
+    inline = ["sudo apt update > /dev/null"]
   }
   depends_on = [aws_instance.re, aws_eip_association.re-eip-assoc, null_resource.inventory-setup, null_resource.ssh-setup]
 }
