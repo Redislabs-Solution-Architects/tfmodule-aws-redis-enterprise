@@ -15,8 +15,8 @@
         - "default.yaml"
 
     - name: Update Apt Cache
-      apt: update_cache=yes cache_valid_time=86400
-      when: ansible_os_family == "Debian"
+      apt: 
+        update_cache: yes
     - name: Ubuntu Packages
       package:
         name: "{{ deb_packages }}"
