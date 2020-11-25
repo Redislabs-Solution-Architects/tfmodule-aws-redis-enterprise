@@ -68,7 +68,7 @@ variable "enable-flash" {
 
 variable "enable-volumes" {
   description = "Enable EBS Devices for Ephemeral and Persistent storage"
-  default     = false
+  default     = true
 }
 
 variable "flash-iops" {
