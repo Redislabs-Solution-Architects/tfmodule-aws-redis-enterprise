@@ -117,7 +117,21 @@ variable "internal-rules" {
     {
       type      = "ingress"
       from_port = "3333"
-      to_port   = "3339"
+      to_port   = "3341"
+      protocol  = "tcp"
+      comment   = "Cluster traffic (Internal use)"
+    },
+    {
+      type      = "ingress"
+      from_port = "3343"
+      to_port   = "3344"
+      protocol  = "tcp"
+      comment   = "Cluster traffic (Internal use)"
+    },
+    {
+      type      = "ingress"
+      from_port = "36379"
+      to_port   = "36380"
       protocol  = "tcp"
       comment   = "Cluster traffic (Internal use)"
     },
@@ -134,6 +148,27 @@ variable "internal-rules" {
       to_port   = "8001"
       protocol  = "tcp"
       comment   = "Traffic from application to RS Discovery Service"
+    },
+    {
+      type      = "ingress"
+      from_port = "8002"
+      to_port   = "8002"
+      protocol  = "tcp"
+      comment   = "System health monitoring"
+    },
+    {
+      type      = "ingress"
+      from_port = "8004"
+      to_port   = "8004"
+      protocol  = "tcp"
+      comment   = "System health monitoring"
+    },
+    {
+      type      = "ingress"
+      from_port = "8006"
+      to_port   = "8006"
+      protocol  = "tcp"
+      comment   = "System health monitoring"
     },
     {
       type      = "ingress"
