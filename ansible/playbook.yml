@@ -74,7 +74,8 @@
         path: "/var/tmp/re-download"
     - name: Unarchive software
       unarchive: 
-        src: "https://s3.amazonaws.com/redis-enterprise-software-downloads/5.4.2/redislabs-5.4.2-20-bionic-amd64.tar"
+        src: "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.0.20/redislabs-6.0.20-95-bionic-amd64.tar"
+
         dest: /var/tmp/re-download
         remote_src: yes
         #    - name: Install the software
