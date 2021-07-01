@@ -78,10 +78,8 @@
 
         dest: /var/tmp/re-download
         remote_src: yes
-        #    - name: Install the software
-        #      command: "./install.sh -y"
-        #      args:
-        #        chdir: /var/tmp/re-download
-        #        creates: /var/opt/redislabs/log/rlcheck.log
-        #    - name: Ensure redislabs owns the volume
-        #      command: "chown -R redislabs:redislabs /redis"
+    - name: Install the software
+      command: "./install.sh -y"
+      args:
+        chdir: /var/tmp/re-download
+        creates: /var/opt/redislabs/log/rlcheck.log
