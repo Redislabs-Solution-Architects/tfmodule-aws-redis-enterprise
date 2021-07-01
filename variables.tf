@@ -56,6 +56,21 @@ variable "re-instance-type" {
   default     = "t2.2xlarge"
 }
 
+variable "ena-support" {
+  description = "choose AMIs that have ENA support enabled"
+  default     = false
+}
+
+variable "tester-node-type" {
+  description = "Set this to a type if you want to run a tester node"
+  default     = ""
+}
+
+variable "quorum-node-type" {
+  description = "Set this to a type if you want to use a quorum node"
+  default     = ""
+}
+
 variable "re-volume-size" {
   description = "The size of the two volumes to attach"
   default     = "150"
@@ -217,55 +232,6 @@ variable "internal-rules" {
       to_port   = "65535"
       protocol  = "udp"
       comment   = "Let UDP out to the VPC"
-    },
-    {
-      type      = "ingress"
-      from_port = "8301"
-      to_port   = "8301"
-      protocol  = "udp"
-      comment   = "Consul Traffic Gossip"
-    },
-    {
-      type      = "ingress"
-      from_port = "8301"
-      to_port   = "8301"
-      protocol  = "tcp"
-      comment   = "Consul Traffic Gossip"
-    },
-    {
-      type      = "ingress"
-      from_port = "8600"
-      to_port   = "8600"
-      protocol  = "tcp"
-      comment   = "Consul Traffic DNS"
-    },
-    {
-      type      = "ingress"
-      from_port = "8600"
-      to_port   = "8600"
-      protocol  = "udp"
-      comment   = "Consul Traffic DNS"
-    },
-    {
-      type      = "ingress"
-      from_port = "8400"
-      to_port   = "8400"
-      protocol  = "tcp"
-      comment   = "Consul Traffic RPC"
-    },
-    {
-      type      = "ingress"
-      from_port = "8500"
-      to_port   = "8500"
-      protocol  = "tcp"
-      comment   = "Consul Traffic HTTP"
-    },
-    {
-      type      = "ingress"
-      from_port = "8300"
-      to_port   = "8300"
-      protocol  = "tcp"
-      comment   = "Consul Traffic Internal"
     },
   ]
 }

@@ -13,4 +13,9 @@ data "aws_ami" "re-ami" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  filter {
+    name   = "ena-support"
+    values = [var.ena-support]
+  }
 }
