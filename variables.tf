@@ -261,6 +261,13 @@ variable "internal-rules" {
       protocol  = "udp"
       comment   = "Let UDP out to the VPC"
     },
+    {
+      type      = "ingress"
+      from_port = "8080"
+      to_port   = "8080"
+      protocol  = "tcp"
+      comment   = "Allow for host check between nodes"
+    },
   ]
 }
 
