@@ -19,5 +19,11 @@ locals {
 
 
 locals {
-  ssh_key= (var.ssh-key == "" ? var.vpc-name : replace(var.ssh-key, ".pem", ""))
+  ssh_key = (var.ssh-key == "" ? var.vpc-name : replace(var.ssh-key, ".pem", ""))
+}
+
+
+# if the tester-node-type is set add a tester node
+locals {
+  tester_count = (var.tester-node-type == "" ? 0 : 1)
 }

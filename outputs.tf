@@ -13,3 +13,7 @@ output "node-internal-ips" {
 output "node-ids" {
   value = aws_instance.re[*].id
 }
+
+output "tester-ips" {
+  value = aws_eip.tester-eip[*].public_ip
+}
