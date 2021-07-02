@@ -1,0 +1,21 @@
+#####################################################################
+# {{ ansible_managed }}
+
+#####################################################################
+[Unit]
+Description=Redis Insights
+After=network.target
+
+[Service]
+WorkingDirectory=/home/redis
+Type=simple
+LimitNOFILE=65535
+User=redis
+ExecStart=/usr/local/bin/redisinsight
+StandardOutput=file:/var/log/redis-insight.log
+StandardError=file:/var/log/redis-insight-error.log
+
+
+[Install]
+WantedBy=multi-user.target
+Alias=redis-insights.service
