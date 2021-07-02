@@ -137,13 +137,6 @@ variable "internal-rules" {
     },
     {
       type      = "ingress"
-      from_port = "36379"
-      to_port   = "36380"
-      protocol  = "tcp"
-      comment   = "Cluster traffic (Internal use)"
-    },
-    {
-      type      = "ingress"
       from_port = "8001"
       to_port   = "8001"
       protocol  = "tcp"
