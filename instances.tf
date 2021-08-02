@@ -7,7 +7,8 @@ resource "aws_instance" "re" {
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
   key_name               = local.ssh_key
-  tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
+  root_block_device { volume_size = var.node-root-size }
+  tags = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }
 
@@ -57,7 +58,7 @@ resource "aws_volume_attachment" "re-persistant" {
 # Handle attaching volumes if enable-flash is set (false by default)
 
 resource "aws_ebs_volume" "re-flash" {
-  count = local.count_flash
+  count             = local.count_flash
   availability_zone = element(var.vpc-azs, count.index)
   size              = var.re-volume-size
   type              = "gp2"

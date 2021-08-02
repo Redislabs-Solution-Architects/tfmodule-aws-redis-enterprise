@@ -13,7 +13,7 @@ variable "common-tags" {
 }
 
 variable "open-nets" {
-  type        = list
+  type        = list(any)
   description = "CIDRs that will have access to everything"
   default     = []
 }
@@ -37,12 +37,12 @@ variable "ssh-key" {
 
 
 variable "vpc-subnets" {
-  type        = list
+  type        = list(any)
   description = "The list of subnets available to the VPC"
 }
 
 variable "vpc-azs" {
-  type        = list
+  type        = list(any)
   description = "The ID of the VPC"
 }
 
@@ -76,6 +76,11 @@ variable "re-volume-size" {
   default     = "150"
 }
 
+variable "node-root-size" {
+  description = "The size of the root volume"
+  default     = "50"
+}
+
 variable "enable-flash" {
   description = "Enable Flash Devices"
   default     = false
@@ -98,7 +103,7 @@ variable "allow-public-ssh" {
 
 variable "internal-rules" {
   description = "Security rules to allow for connectivity within the VPC"
-  type        = list
+  type        = list(any)
   default = [
     {
       type      = "ingress"
@@ -261,19 +266,19 @@ variable "internal-rules" {
       protocol  = "udp"
       comment   = "Let UDP out to the VPC"
     },
-    {
-      type      = "ingress"
-      from_port = "8080"
-      to_port   = "8080"
-      protocol  = "tcp"
-      comment   = "Allow for host check between nodes"
-    },
+    #    {
+    #      type      = "ingress"
+    #      from_port = "8080"
+    #      to_port   = "8080"
+    #      protocol  = "tcp"
+    #      comment   = "Allow for host check between nodes"
+    #    },
   ]
 }
 
 variable "external-rules" {
   description = "Security rules to allow for connectivity external to the VPC"
-  type        = list
+  type        = list(any)
   default = [
     {
       type      = "ingress"
