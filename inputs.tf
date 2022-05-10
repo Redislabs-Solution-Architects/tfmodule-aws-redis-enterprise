@@ -14,8 +14,8 @@ data "aws_ami" "re-ami" {
     values = ["hvm"]
   }
 
-  filter {
-    name   = "ena-support"
-    values = [var.ena-support]
-  }
+#  filter {
+#    name   = "ena-support"
+#    values = [var.ena-support]
+#  }
 }

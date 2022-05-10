@@ -1,25 +1,29 @@
 provider "aws" {
-  region  = "us-east-1"
-  profile = "redislabs"
+  region  = "us-west-2"
+  profile = "default"
+  shared_config_files      = ["/Users/jasonhaugland/.aws/conf"]
+  shared_credentials_files = ["/Users/jasonhaugland/.aws/creds"]
 }
 
 module "mymodule" {
   source           = "../"
-  profile          = "redislabs"
-  region           = "us-east-1"
-  open-nets        = ["192.168.0.127/32"]
+  region           = "us-west-2"
+  profile          = "default"
+  open-nets        = ["174.141.204.19/32"]
   data-node-count  = 3
-  vpc-cidr         = "10.0.0.0/16"
-  vpc-subnets      = ["subnet-1", "subnet-2"]
-  vpc-id           = "vpc-12345678"
-  vpc-name         = "myvpc"
-  ssh-key          = "test.pem"
+  vpc-cidr         = "10.1.0.0/16"
+  vpc-subnets      = ["subnet-0d706029a98886e55"]
+  vpc-id           = "vpc-0c1deef36f8f4451d"
+  vpc-name         = "jph-prod-vpc"
+  ssh-key          = "jphterra.pem"
   allow-public-ssh = 1
-  enable-flash     = true
+  enable-flash     = false
   enable-volumes   = false
-  vpc-azs          = ["us-west-1a", "us-west-1b"]
+  vpc-azs          = ["us-west-2a"]
+  cluster-prefix   = "jphterra"
+  zone-name        = "demo-rlec.redislabs.com"
   common-tags = {
-    "Owner"   = "maguec"
-    "Project" = "example"
+    "Owner"   = "jphaugla"
+    "Project" = "jph-prod"
   }
 }

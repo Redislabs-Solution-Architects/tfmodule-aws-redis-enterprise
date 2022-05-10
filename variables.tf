@@ -46,6 +46,14 @@ variable "vpc-azs" {
   description = "The ID of the VPC"
 }
 
+variable "cluster-prefix" {
+  description = "the cluster prefix before the zone-name"
+}
+
+variable "zone-name" {
+  description = "the route 53 zone name"
+}
+
 variable "data-node-count" {
   description = "The number of RE data nodes"
   default     = 3
