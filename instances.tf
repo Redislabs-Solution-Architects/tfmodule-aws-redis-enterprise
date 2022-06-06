@@ -36,7 +36,7 @@ resource "aws_ebs_volume" "re-ephemeral" {
 
 resource "aws_volume_attachment" "re-ephemeral" {
   count       = local.count_volumes
-  device_name = "/dev/sdh"
+  device_name = "/dev/xvdh"
   volume_id   = element(aws_ebs_volume.re-ephemeral.*.id, count.index)
   instance_id = element(aws_instance.re.*.id, count.index)
 }
@@ -50,7 +50,7 @@ resource "aws_ebs_volume" "re-persistant" {
 
 resource "aws_volume_attachment" "re-persistant" {
   count       = local.count_volumes
-  device_name = "/dev/sdj"
+  device_name = "/dev/xvdj"
   volume_id   = element(aws_ebs_volume.re-persistant.*.id, count.index)
   instance_id = element(aws_instance.re.*.id, count.index)
 }
@@ -67,7 +67,7 @@ resource "aws_ebs_volume" "re-flash" {
 
 resource "aws_volume_attachment" "re-flash" {
   count       = local.count_flash
-  device_name = "/dev/sdi"
+  device_name = "/dev/xvdi"
   volume_id   = element(aws_ebs_volume.re-flash.*.id, count.index)
   instance_id = element(aws_instance.re.*.id, count.index)
 }

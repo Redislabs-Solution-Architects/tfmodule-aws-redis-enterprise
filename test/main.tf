@@ -12,13 +12,13 @@ module "mymodule" {
   open-nets        = ["174.141.204.19/32"]
   data-node-count  = 3
   vpc-cidr         = "10.1.0.0/16"
-  vpc-subnets      = ["subnet-0d706029a98886e55"]
-  vpc-id           = "vpc-0c1deef36f8f4451d"
+  vpc-subnets      = ["subnet-047a071c39d0da64d"]
+  vpc-id           = "vpc-016b00b2cedc31855"
   vpc-name         = "jph-prod-vpc"
   ssh-key          = "jphterra.pem"
   allow-public-ssh = 1
-  enable-flash     = false
-  enable-volumes   = false
+  enable-flash     = true
+  enable-volumes   = true
   vpc-azs          = ["us-west-2a"]
   cluster-prefix   = "jphterra"
   zone-name        = "demo-rlec.redislabs.com"

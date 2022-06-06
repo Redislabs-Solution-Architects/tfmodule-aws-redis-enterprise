@@ -71,7 +71,7 @@ variable "ena-support" {
 
 variable "tester-node-type" {
   description = "Set this to a type if you want to run a tester node"
-  default     = ""
+  default     = "t2.xlarge"
 }
 
 variable "quorum-node-type" {
