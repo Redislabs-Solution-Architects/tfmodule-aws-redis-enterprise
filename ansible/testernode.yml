@@ -99,6 +99,18 @@
         target: install
       become: yes
 
+    - name: checkout redisearchStock git repo
+      git:
+        repo: 'https://github.com/jphaugla/redisearchStock'
+        dest: /home/ubuntu/redisearchStock
+
+    - name: chown redisearchstock
+      file: 
+        dest: /home/ubuntu/redisearchStock 
+        owner: ubuntu 
+        group: ubuntu
+        recurse: yes
+
     - name: Install Redis Insights
       get_url:
         url: https://downloads.redisinsight.redislabs.com/latest/redisinsight-linux64
@@ -138,6 +150,30 @@
     - name: Install Go
       package:
         name: golang
+    - name: create binaries dir
+      file:
+        path: /home/ubuntu/binaries
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+        state: directory
+    - name: wget java 18
+      get_url:
+        url: https://download.oracle.com/java/18/latest/jdk-18_linux-x64_bin.deb
+        dest: /home/ubuntu/binaries
+        mode: '0755'
+    - name: install jdk18
+      command: "apt install -y ./jdk-18_linux-x64_bin.deb"
+      args:
+        chdir: /home/ubuntu/binaries
+        creates: /usr/lib/jvm/jdk-18
+    - name: configure java
+      shell: 
+       cmd: | 
+         cat <<EOF | sudo tee /etc/profile.d/jdk18.sh
+         export JAVA_HOME=/usr/lib/jvm/jdk-18
+         export PATH=\$PATH:\$JAVA_HOME/bin
+         EOF
 
 
   post_tasks:
