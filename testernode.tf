@@ -7,6 +7,7 @@ resource "aws_instance" "tester" {
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
   key_name               = local.ssh_key
+  root_block_device { volume_size = var.tester-root-size }
   tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }

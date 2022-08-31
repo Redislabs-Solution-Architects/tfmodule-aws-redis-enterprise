@@ -85,7 +85,12 @@ variable "re-volume-size" {
 }
 
 variable "node-root-size" {
-  description = "The size of the root volume"
+  description = "The size of the instances root volume"
+  default     = "50"
+}
+
+variable "tester-root-size" {
+  description = "The size of the tester root volume"
   default     = "50"
 }
 

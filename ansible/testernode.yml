@@ -174,7 +174,32 @@
          export JAVA_HOME=/usr/lib/jvm/jdk-18
          export PATH=\$PATH:\$JAVA_HOME/bin
          EOF
-
+    - name: wget maven
+      unarchive:
+        src: https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz 
+        dest: /opt
+        remote_src: yes
+    - name: create simple maven link
+      file:
+       src: /opt/apache-maven-3.8.6
+       dest:  /opt/maven
+       owner: root
+       group: root
+       state: link
+    - name: configure maven
+      shell: 
+       cmd: | 
+         cat <<EOF | sudo tee /etc/profile.d/maven.sh
+         export JAVA_HOME=/usr/lib/jvm/jdk-18
+         export M2_HOME=/opt/maven
+         export MAVEN_HOME=/opt/maven
+         export PATH=\$PATH:\$M2_HOME/bin
+         EOF
+    - name: chmod maven
+      file:
+       dest: /etc/profile.d/maven.sh
+       state: touch 
+       mode: +x  
 
   post_tasks:
     - name: create the redis dir
