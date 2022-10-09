@@ -1,0 +1,45 @@
+bootstrap_endpoint: "https://localhost:9443/v1/bootstrap"
+bdbs_endpoint: "https://localhost:9443/v1/bdbs"
+re_username: 'admin@redis.com'
+re_password: 'redis123'
+re_cluster_name_fqdn: '{{ hostvars[groups.re_master[0]].cluster_domain }}'
+ip_int_master: "{{ hostvars[groups['re_master'][0]]['ansible_default_ipv4']['address'] }}"
+re_flash_enabled: False
+re_home_dir: '/opt/redislabs'
+re_persistent_path: '/var/opt/redislabs/persist'
+re_ephemeral_path: '/var/opt/redislabs/tmp'
+re_license: ''
+
+re_databases:
+  - db_name: 'db1'
+    db_memory_size: 1073741824
+    db_type: 'redis'
+    db_replication: 'false'
+    db_sharding: 'false'
+    db_shards_count: 1
+    db_oss_cluster: 'false'
+    db_proxy_policy: 'all-master-shards'
+    db_shards_placement: 'sparse'
+    db_evict_policy: 'volatile-lru'
+    db_persistence: 'disabled'
+    db_aof_policy: 'appendfsync-always'
+    db_password: 'redis123'
+
+deb_packages:
+  - jq
+  - tree
+  - sysstat
+  - iputils-ping
+  - libcap2-bin 
+  - build-essential
+  - autoconf
+  - automake
+  - libbsd-dev
+  - libltdl-dev
+  - libtool
+  - libpcre3-dev 
+  - libevent-dev
+  - pkg-config
+  - zlib1g-dev
+  - libssl-dev
+  - ntp

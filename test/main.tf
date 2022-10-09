@@ -17,11 +17,12 @@ module "mymodule" {
   vpc-name         = "jph-prod-vpc"
   ssh-key          = "jphterra.pem"
   allow-public-ssh = 1
-  enable-flash     = true
-  enable-volumes   = true
+  enable-flash     = false
+  enable-volumes   = false
   vpc-azs          = ["us-west-2a"]
   cluster-prefix   = "jphterra"
   zone-name        = "demo-rlec.redislabs.com"
+  re-download-url = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.18/redislabs-6.2.18-43-bionic-amd64.tar"
   common-tags = {
     "Owner"   = "jphaugla"
     "Project" = "jph-prod"

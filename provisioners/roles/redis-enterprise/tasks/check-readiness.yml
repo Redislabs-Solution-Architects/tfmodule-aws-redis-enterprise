@@ -1,0 +1,19 @@
+# Check if bootstrap is ready
+
+- name: Check REST API is Ready
+  uri:
+    url: "{{bootstrap_endpoint}}"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    headers:
+        cache-control: no-cache
+  register: api_state
+  until: api_state.json.bootstrap_status.state is defined
+  retries: 30
+  delay: 2
+  ignore_errors: true

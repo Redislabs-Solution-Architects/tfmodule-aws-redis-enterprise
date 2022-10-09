@@ -12,6 +12,15 @@ variable "common-tags" {
   description = "Tags that go everywhere"
 }
 
+variable "instances_inventory_file" {
+    description = "Path and file name to send inventory details for ansible later."
+    default = "inventory"
+}
+
+variable "ssh-user" {
+    description = "username for ssh.  This is currently not changeable as it is the default"
+    default = "ubuntu"
+}
 variable "open-nets" {
   type        = list(any)
   description = "CIDRs that will have access to everything"
@@ -24,6 +33,11 @@ variable "vpc-cidr" {
 
 variable "vpc-id" {
   description = "The ID of the VPC"
+}
+
+variable "ansible_verbosity_switch" {
+    description = "Set the about of verbosity to pass through to the ansible playbook command. No additional verbosity by default. Example: -v or -vv or -vvv."
+    default = ""
 }
 
 variable "vpc-name" {
@@ -112,6 +126,12 @@ variable "flash-iops" {
 variable "allow-public-ssh" {
   description = "Allow SSH to be open to the public - disabled by default"
   default     = "0"
+}
+
+# Use this to determine what version of the software gets installed
+variable "re-download-url" {
+  description = "The download link for the redis enterprise software"
+  default     = null
 }
 
 variable "internal-rules" {

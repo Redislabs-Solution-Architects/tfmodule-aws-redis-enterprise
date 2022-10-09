@@ -1,0 +1,61 @@
+---
+- name: Get the IPs
+  set_fact:
+    ip_ext_node: "{{ inventory_hostname }}"
+    ip_int_node: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    
+################
+# Join Cluster #
+################
+
+- name: Check Node Status Before Joining
+  uri:
+    url: "{{bootstrap_endpoint}}"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    headers:
+        cache-control: no-cache
+  register: cluster_join_initial
+
+- name: Set Cluster join status
+  set_fact:
+    joined: "{{ cluster_join_initial is defined and cluster_join_initial.json.bootstrap_status.state == 'completed' }}"
+
+- name: Join Node to Cluster
+  uri:
+    url: "{{bootstrap_endpoint}}/join_cluster"
+    method: POST
+    return_content: yes
+    validate_certs: no
+    follow_redirects: all
+    body: "{{ lookup('template','join_cluster.json.j2') }}"
+    body_format: json
+    headers:
+        Content-Type: "application/json"
+  ignore_errors: true
+  when:
+    - not joined
+
+- name: Check Node Status After
+  uri:
+    url: "{{bootstrap_endpoint}}"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    headers:
+        cache-control: no-cache
+  register: cluster_join_check
+  until: cluster_join_check.json.bootstrap_status.state == 'completed'
+  delay: 2
+  retries: 20
+  when:
+    - not joined

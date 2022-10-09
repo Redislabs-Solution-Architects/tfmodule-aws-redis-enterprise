@@ -1,0 +1,82 @@
+---
+
+# Get all dbs to convert name to uid
+- name: Get all databases
+  uri:
+    url: "{{ bdbs_endpoint }}"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    headers:
+        cache-control: no-cache
+  register: bdbs_response_initial
+
+- name: Set DB Creation Status
+  set_fact:
+    db_created: "{{ bdbs_response_initial is defined and bdbs_response_initial.json[0].name is defined }}"
+
+# Create databases
+- name: Creating database via REST API
+  uri:
+    url: "{{ bdbs_endpoint }}"
+    method: POST
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    return_content: yes
+    validate_certs: no
+    follow_redirects: all
+    body: "{{ lookup('template','create_database.json.j2') }}"
+    body_format: json
+    headers:
+        Content-Type: "application/json"
+  with_items: "{{ re_databases }}"
+  register: db_creation
+  when:
+    - not db_created
+
+- name: Set DB Creation Status
+  set_fact:
+    db_created: db_creation.status == 200
+  when: not db_created
+
+- name: DB Not Created
+  debug:
+    var=db_creation
+  when: not db_created
+
+- name: Get DB 1
+  uri:
+    url: "{{ bdbs_endpoint }}/1"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    headers:
+        cache-control: no-cache
+  register: db1
+  when: db_created
+
+
+- name: Endpoints
+  debug:
+    msg:
+      - "Admin UI: https://{{ re_cluster_name_fqdn }}:8443"
+      - "DB: port: {{db1.json.endpoints[0].port}}"
+      - "DB external endpoint: {{db1.json.endpoints[0].dns_name}}"
+      - "DB internal endpoint: {{db1.json.endpoints[1].dns_name}}"
+  when: db_created
+
+- name: AWS VMs
+  debug:
+    msg: "{{ item }}"
+  with_inventory_hostnames:
+    - all_node_names
+  when: db_created
