@@ -91,9 +91,12 @@
 - name: Install Go
   package:
     name: golang
-- name: Install Java
+- name: Install Java jdk
   package:
-    name: default-jre
+    name: openjdk-17-jdk
+- name: Install Java jre
+  package:
+    name: openjdk-17-jre
 - name: create binaries dir
   file:
     path: /home/ubuntu/binaries
