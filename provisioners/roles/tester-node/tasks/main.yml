@@ -101,8 +101,8 @@
 - name: configure java
   shell:
    cmd: |
-     cat <<EOF | sudo tee /etc/profile.d/jdk17.sh
-     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+     cat <<EOF | sudo tee /etc/profile.d/jdk18.sh
+     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
      EOF
 - name: wget maven
   unarchive:
@@ -120,7 +120,7 @@
   shell:
    cmd: |
      cat <<EOF | sudo tee /etc/profile.d/maven.sh
-     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
      export M2_HOME=/opt/maven
      export MAVEN_HOME=/opt/maven
      export PATH=\$PATH:\$M2_HOME/bin
