@@ -91,12 +91,6 @@
 - name: Install Go
   package:
     name: golang
-- name: Install Java jdk
-  package:
-    name: openjdk-17-jdk
-- name: Install Java jre
-  package:
-    name: openjdk-17-jre
 - name: create binaries dir
   file:
     path: /home/ubuntu/binaries
@@ -104,6 +98,12 @@
     group: ubuntu
     mode: '0755'
     state: directory
+- name: configure java
+  shell:
+   cmd: |
+     cat <<EOF | sudo tee /etc/profile.d/jdk17.sh
+     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+     EOF
 - name: wget maven
   unarchive:
     src: https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
@@ -120,7 +120,7 @@
   shell:
    cmd: |
      cat <<EOF | sudo tee /etc/profile.d/maven.sh
-     export JAVA_HOME=/usr/lib/jvm/jdk-18
+     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
      export M2_HOME=/opt/maven
      export MAVEN_HOME=/opt/maven
      export PATH=\$PATH:\$M2_HOME/bin

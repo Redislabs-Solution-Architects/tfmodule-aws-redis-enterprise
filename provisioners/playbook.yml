@@ -64,6 +64,8 @@
         - zlib1g-dev
         - libssl-dev
         - nginx
+        - openjdk-17-jdk
+        - openjdk-17-jre
   - name: Set to Realistic Hostname
     hostname:
       name: "tester"
