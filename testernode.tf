@@ -1,6 +1,6 @@
 resource "aws_instance" "tester" {
   count                  = local.tester_count
-  ami                    = data.aws_ami.re-ami.id
+  ami                    = data.aws_ami.tst-ami.id
   instance_type          = var.tester-node-type
   availability_zone      = element(var.vpc-azs, count.index)
   subnet_id              = element(var.vpc-subnets, count.index)

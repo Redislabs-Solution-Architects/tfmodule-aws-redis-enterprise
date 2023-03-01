@@ -22,7 +22,7 @@ module "mymodule" {
   vpc-azs          = ["us-west-2a"]
   cluster-prefix   = "jphterra"
   zone-name        = "demo-rlec.redislabs.com"
-  re-download-url = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.2.18/redislabs-6.2.18-65-bionic-amd64.tar"
+  re-download-url = "https://s3.amazonaws.com/redis-enterprise-software-downloads/6.4.2/redislabs-6.4.2-30-bionic-amd64.tar"
   common-tags = {
     "Owner"   = "jphaugla"
     "Project" = "jph-prod"
