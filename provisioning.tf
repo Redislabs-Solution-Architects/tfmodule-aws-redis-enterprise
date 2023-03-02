@@ -11,6 +11,6 @@ resource "null_resource" "provision" {
     }
 
     depends_on = [
-aws_eip.re-eip, aws_instance.re, aws_eip.tester-eip
+aws_eip.re-eip, aws_instance.re, aws_eip.tester-eip, local_file.instances_file
     ]
 }
