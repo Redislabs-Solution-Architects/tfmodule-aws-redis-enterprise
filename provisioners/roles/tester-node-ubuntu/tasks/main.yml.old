@@ -1,0 +1,28 @@
+- name: install nvm
+  shell: wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash 
+
+- name: get new shell
+  shell: source .bashrc
+  args:
+    executable: /bin/bash
+
+- name: install node
+  command: /bin/bash -c /home/ubuntu/install_node.sh
+  args:
+    executable: /bin/bash
+    chdir: "$HOME"
+
+- name: install yarn
+  shell: npm install -g yarn
+  args:
+    executable: /bin/bash
+
+- name: install typescript
+  shell: npm install -g typescript
+  args:
+    executable: /bin/bash
+
+- name: add bullmq
+  ansible.builtin.shell:
+    cmd: yarn add bullmq
+    chdir: /home/ubuntu/bullmq

@@ -1,142 +1,15 @@
-- name: checkout redis git repo
-  git:
-    repo: 'https://github.com/antirez/redis'
-    dest: /home/ubuntu/redis
+- name: install redis tools
+  include_tasks: install-redis-tools.yml
+  when:
+    - install_redis_tools|bool
 
-- name: redis - Build the default target
-  make:
-    chdir: /home/ubuntu/redis
+- name: add github repositories
+  include_tasks: add-github-repos.yml
+  when:
+    - add_github_repos|bool
 
-- name: redis - Run 'install' target as root
-  make:
-    chdir: /home/ubuntu/redis
-    target: install
-  become: yes
+- name: install java, maven and go
+  include_tasks: install-java-maven-go.yml
+  when:
+    - install_java_maven_go|bool
 
-- name: checkout memtier_benchmark git repo
-  git:
-    repo: 'https://github.com/RedisLabs/memtier_benchmark'
-    dest: /home/ubuntu/memtier_benchmark
-
-- name: memtier - Run the autoconf
-  command: autoreconf -ivf
-  args:
-    chdir: /home/ubuntu/memtier_benchmark
-    creates: /home/ubuntu/memtier_benchmark/configure
-
-- name: memtier - Run the configure script first
-  command: ./configure
-  args:
-    chdir: /home/ubuntu/memtier_benchmark
-    creates: /home/ubuntu/memtier_benchmark/Makefile
-
-- name: memtier - Build the default target
-  make:
-    chdir: /home/ubuntu/memtier_benchmark
-
-- name: Run 'memtier_benchmark install' target as root
-  make:
-    chdir: /home/ubuntu/memtier_benchmark
-    target: install
-  become: yes
-
-- name: checkout redisearchStock git repo
-  git:
-    repo: 'https://github.com/jphaugla/redisearchStock'
-    dest: /home/ubuntu/redisearchStock
-
-- name: checkout bullmq repo
-  git:
-    repo: 'https://github.com/taskforcesh/bullmq'
-    dest: /home/ubuntu/bullmq
-
-- name: checkout bullmq repo
-  git:
-    repo: 'https://github.com/taskforcesh/bullmq-video-transcoder'
-    dest: /home/ubuntu/bullmq-video-transcoder
-
-- name: chown ubuntu
-  file:
-    dest: /home/ubuntu
-    owner: ubuntu
-    group: ubuntu
-    recurse: yes
-
-- name: Install Redis Insights
-  get_url:
-    url: https://downloads.redisinsight.redislabs.com/latest/redisinsight-linux64
-    dest: /usr/local/bin/redisinsight
-    mode: '0755'
-- name: Redis Insights Systemd
-  template:
-    src: systemd_redis_insights.j2
-    dest: /lib/systemd/system/redis-insights.service
-    owner: root
-    group: root
-    mode: 0644
-- name: Enable Redis Insights Services
-  systemd:
-    name: redis-insights
-    enabled: yes
-    state: started
-- name: Enable Redis Insights Services in Nginx
-  template:
-    src: nginx_insights.j2
-    dest: /etc/nginx/sites-enabled/insights
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - restart_nginx
-- name: Enable Redis Insights Services
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-  notify:
-    - restart_nginx
-- name: Add Golang PPA
-  apt_repository:
-    repo: 'ppa:longsleep/golang-backports'
-    state: present
-- name: Install Go
-  package:
-    name: golang
-- name: create binaries dir
-  file:
-    path: /home/ubuntu/binaries
-    owner: ubuntu
-    group: ubuntu
-    mode: '0755'
-    state: directory
-- name: configure java
-  shell:
-   cmd: |
-     cat <<EOF | sudo tee /etc/profile.d/jdk18.sh
-     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
-     EOF
-- name: wget maven
-  unarchive:
-    src: https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
-    dest: /opt
-    remote_src: yes
-- name: create simple maven link
-  file:
-   src: /opt/apache-maven-3.8.7
-   dest:  /opt/maven
-   owner: root
-   group: root
-   state: link
-- name: configure maven
-  shell:
-   cmd: |
-     cat <<EOF | sudo tee /etc/profile.d/maven.sh
-     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
-     export M2_HOME=/opt/maven
-     export MAVEN_HOME=/opt/maven
-     export PATH=\$PATH:\$M2_HOME/bin
-     EOF
-- name: chmod maven
-  file:
-   dest: /etc/profile.d/maven.sh
-   state: touch
-   mode: +x

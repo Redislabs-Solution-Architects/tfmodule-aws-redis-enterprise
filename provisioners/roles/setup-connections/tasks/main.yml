@@ -4,3 +4,5 @@
     delay: 30
     sleep: 5
     timeout: 600
+  when:
+    - do_wait|bool

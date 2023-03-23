@@ -1,0 +1,43 @@
+- name: Get_nvm_install_script | {{ role_name | basename }}
+  tags: Get_nvm_install_script
+  get_url:
+    url: https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh
+    dest: "{{ ansible_user_dir }}/nvm_install.sh"
+    force: true
+
+- name: Install_or_update_nvm | {{ role_name | basename }}
+  tags: Install_or_update_nvm
+  command: bash {{ ansible_user_dir }}/nvm_install.sh
+
+- name: Install_nodejs | {{ role_name | basename }}
+  tags: Install_nodejs
+  shell: |
+    source {{ ansible_user_dir }}/.nvm/nvm.sh
+    nvm install {{ node_version }}
+  args:
+    executable: /bin/bash
+
+- name: Install_yarn | {{ role_name | basename }}
+  tags: Install_yarn
+  shell: |
+    source {{ ansible_user_dir }}/.nvm/nvm.sh
+    npm install -g yarn
+  args:
+    executable: /bin/bash
+
+- name: Install_typescript | {{ role_name | basename }}
+  tags: Install_yarn
+  shell: |
+    source {{ ansible_user_dir }}/.nvm/nvm.sh
+    npm install -g typescript
+  args:
+    executable: /bin/bash
+
+- name: add bullmq
+  tags: add bullmq
+  shell: |
+    source {{ ansible_user_dir }}/.nvm/nvm.sh
+    cd bullmq
+    yarn add bullmq
+  args:
+    executable: /bin/bash

@@ -82,3 +82,11 @@
       state: restarted
   roles:
     - tester-node
+
+- hosts: tester_node_ips
+  gather_facts: True
+  become: yes
+  become_user: ubuntu
+  become_method: sudo
+  roles:
+    - tester-node-ubuntu

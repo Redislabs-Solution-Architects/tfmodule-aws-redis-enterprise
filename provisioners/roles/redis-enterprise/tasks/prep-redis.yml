@@ -47,6 +47,7 @@
     src: "{{ S3_RE_BINARY }}"
     dest: /var/tmp/re-download
     remote_src: yes
+    creates: /opt/redislabs/bin
 - name: Install the software
   command: "./install.sh -y"
   args:
