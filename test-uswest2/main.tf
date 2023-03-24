@@ -10,7 +10,7 @@ module "mymodule" {
   region           = "us-west-2"
   profile          = "default"
   open-nets        = ["174.141.204.19/32"]
-  data-node-count  = 4
+  data-node-count  = 3
   vpc-cidr         = "10.1.0.0/16"
   vpc-subnets      = ["subnet-047a071c39d0da64d"]
   vpc-id           = "vpc-016b00b2cedc31855"

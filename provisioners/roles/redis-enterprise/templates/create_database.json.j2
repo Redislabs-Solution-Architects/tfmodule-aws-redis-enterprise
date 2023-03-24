@@ -11,6 +11,17 @@
 	"shards_placement": "{{ item.db_shards_placement }}",
 	"data_persistence": "{{ item.db_persistence }}",
 	"aof_policy": "{{ item.db_aof_policy }}",
+        "module_list": [
+		{
+			"module_name": "ReJSON",
+			"module_args": "",
+			"semantic_version": "2.4.5"
+		},
+    		{
+			"module_name": "search",
+			"module_args": "PARTITIONS AUTO",
+			"semantic_version": "2.6.4"
+		}],
 	"shard_key_regex": [
 		{
 			"regex": ".*\\{(?<tag>.*)\\}.*"
