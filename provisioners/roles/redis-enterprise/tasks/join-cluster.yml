@@ -56,6 +56,6 @@
   register: cluster_join_check
   until: cluster_join_check.json.bootstrap_status.state == 'completed'
   delay: 2
-  retries: 20
+  retries: 30
   when:
     - not joined
