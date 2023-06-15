@@ -1,0 +1,22 @@
+
+- name: checkout redisearchStock git repo
+  git:
+    repo: 'https://github.com/jphaugla/redisearchStock'
+    dest: /home/ubuntu/redisearchStock
+
+- name: checkout bullmq repo
+  git:
+    repo: 'https://github.com/taskforcesh/bullmq'
+    dest: /home/ubuntu/bullmq
+
+- name: checkout bullmq repo
+  git:
+    repo: 'https://github.com/taskforcesh/bullmq-video-transcoder'
+    dest: /home/ubuntu/bullmq-video-transcoder
+
+- name: chown ubuntu
+  file:
+    dest: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes

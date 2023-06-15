@@ -1,0 +1,91 @@
+- name: checkout redis git repo
+  git:
+    repo: 'https://github.com/antirez/redis'
+    dest: /home/ubuntu/redis
+
+- name: redis - Build the default target
+  make:
+    chdir: /home/ubuntu/redis
+
+- name: redis - Run 'install' target as root
+  make:
+    chdir: /home/ubuntu/redis
+    target: install
+  become: yes
+
+- name: checkout memtier_benchmark git repo
+  git:
+    repo: 'https://github.com/RedisLabs/memtier_benchmark'
+    dest: /home/ubuntu/memtier_benchmark
+
+- name: memtier - Run the autoconf
+  command: autoreconf -ivf
+  args:
+    chdir: /home/ubuntu/memtier_benchmark
+    creates: /home/ubuntu/memtier_benchmark/configure
+
+- name: memtier - Run the configure script first
+  command: ./configure
+  args:
+    chdir: /home/ubuntu/memtier_benchmark
+    creates: /home/ubuntu/memtier_benchmark/Makefile
+
+- name: memtier - Build the default target
+  make:
+    chdir: /home/ubuntu/memtier_benchmark
+
+- name: Run 'memtier_benchmark install' target as root
+  make:
+    chdir: /home/ubuntu/memtier_benchmark
+    target: install
+  become: yes
+
+- name: chown ubuntu
+  file:
+    dest: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes
+
+- name: Install Redis Insights
+  get_url:
+    url: https://downloads.redisinsight.redislabs.com/latest/redisinsight-linux64
+    dest: /usr/local/bin/redisinsight
+    mode: '0755'
+
+- name: Redis Insights Systemd
+  template:
+    src: systemd_redis_insights.j2
+    dest: /lib/systemd/system/redis-insights.service
+    owner: root
+    group: root
+    mode: 0644
+- name: Enable Redis Insights Services
+  systemd:
+    name: redis-insights
+    enabled: yes
+    state: started
+
+- name: Enable Redis Insights Services in Nginx
+  template:
+    src: nginx_insights.j2
+    dest: /etc/nginx/sites-enabled/insights
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_nginx
+
+- name: Enable Redis Insights Services
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - restart_nginx
+ 
+- name: chown ubuntu
+  file:
+    dest: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes

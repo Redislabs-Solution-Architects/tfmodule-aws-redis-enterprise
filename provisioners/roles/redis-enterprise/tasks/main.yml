@@ -16,6 +16,10 @@
   when:
     - inventory_hostname in groups['re_nodes']
 
+- name: Timing issue with creating database
+  wait_for:
+    timeout: 60
+
 - name: Create DB
   include_tasks: create-db.yml
   when:

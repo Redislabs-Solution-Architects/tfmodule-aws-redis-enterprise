@@ -32,12 +32,3 @@
     npm install -g typescript
   args:
     executable: /bin/bash
-
-- name: add bullmq
-  tags: add bullmq
-  shell: |
-    source {{ ansible_user_dir }}/.nvm/nvm.sh
-    cd bullmq
-    yarn add bullmq
-  args:
-    executable: /bin/bash
