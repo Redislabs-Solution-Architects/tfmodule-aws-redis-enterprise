@@ -4,10 +4,14 @@
     url: https://raw.githubusercontent.com/nvm-sh/nvm/v{{ nvm_version }}/install.sh
     dest: "{{ ansible_user_dir }}/nvm_install.sh"
     force: true
+  when:
+    - install_node_js|bool
 
 - name: Install_or_update_nvm | {{ role_name | basename }}
   tags: Install_or_update_nvm
   command: bash {{ ansible_user_dir }}/nvm_install.sh
+  when:
+    - install_node_js|bool
 
 - name: Install_nodejs | {{ role_name | basename }}
   tags: Install_nodejs
@@ -16,6 +20,8 @@
     nvm install {{ node_version }}
   args:
     executable: /bin/bash
+  when:
+    - install_node_js|bool
 
 - name: Install_yarn | {{ role_name | basename }}
   tags: Install_yarn
@@ -24,6 +30,8 @@
     npm install -g yarn
   args:
     executable: /bin/bash
+  when:
+    - install_node_js|bool
 
 - name: Install_typescript | {{ role_name | basename }}
   tags: Install_yarn
@@ -32,3 +40,5 @@
     npm install -g typescript
   args:
     executable: /bin/bash
+  when:
+    - install_node_js|bool
