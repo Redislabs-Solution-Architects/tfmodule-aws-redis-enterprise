@@ -1,4 +1,4 @@
 install_redis_tools: true
 add_github_repos: true
 install_java_maven_go: true
-maven_version: '3.9.2'
+maven_version: '3.9.3'

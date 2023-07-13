@@ -2,8 +2,8 @@ resource "aws_instance" "tester" {
   count                  = local.tester_count
   ami                    = data.aws_ami.tst-ami.id
   instance_type          = var.tester-node-type
-  availability_zone      = element(var.vpc-azs, count.index)
-  subnet_id              = element(var.vpc-subnets, count.index)
+  availability_zone      = var.vpc-azs
+  subnet_id              = aws_subnet.region_subnet.id
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
   key_name               = local.ssh_key

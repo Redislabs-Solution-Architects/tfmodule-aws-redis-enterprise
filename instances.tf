@@ -2,8 +2,8 @@ resource "aws_instance" "re" {
   count                  = var.data-node-count
   ami                    = data.aws_ami.re-ami.id
   instance_type          = var.re-instance-type
-  availability_zone      = element(var.vpc-azs, count.index)
-  subnet_id              = element(var.vpc-subnets, count.index)
+  availability_zone      = var.vpc-azs
+  subnet_id              = aws_subnet.region_subnet.id
   vpc_security_group_ids = [aws_security_group.re.id]
   source_dest_check      = false
   key_name               = local.ssh_key
@@ -29,7 +29,7 @@ resource "aws_eip_association" "re-eip-assoc" {
 
 resource "aws_ebs_volume" "re-ephemeral" {
   count             = local.count_volumes
-  availability_zone = element(var.vpc-azs, count.index)
+  availability_zone = var.vpc-azs
   size              = var.re-volume-size
   tags              = merge({ Name = "ephemeral-${var.vpc-name}-${count.index}" }, var.common-tags)
 }
@@ -43,7 +43,7 @@ resource "aws_volume_attachment" "re-ephemeral" {
 
 resource "aws_ebs_volume" "re-persistant" {
   count             = local.count_volumes
-  availability_zone = element(var.vpc-azs, count.index)
+  availability_zone = var.vpc-azs
   size              = var.re-volume-size
   tags              = merge({ Name = "persistant-${var.vpc-name}-${count.index}" }, var.common-tags)
 }
@@ -59,7 +59,7 @@ resource "aws_volume_attachment" "re-persistant" {
 
 resource "aws_ebs_volume" "re-flash" {
   count             = local.count_flash
-  availability_zone = element(var.vpc-azs, count.index)
+  availability_zone = var.vpc-azs
   size              = var.re-volume-size
   type              = "gp2"
   tags              = merge({ Name = "flash-${var.vpc-name}-${count.index}" }, var.common-tags)

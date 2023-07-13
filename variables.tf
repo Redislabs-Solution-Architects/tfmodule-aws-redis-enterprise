@@ -31,10 +31,6 @@ variable "vpc-cidr" {
   description = "The CIDR of the VPC"
 }
 
-variable "vpc-id" {
-  description = "The ID of the VPC"
-}
-
 variable "ansible_verbosity_switch" {
     description = "Set the about of verbosity to pass through to the ansible playbook command. No additional verbosity by default. Example: -v or -vv or -vvv."
     default = "-vvvv"
@@ -50,14 +46,12 @@ variable "ssh-key" {
 }
 
 
-variable "vpc-subnets" {
-  type        = list(any)
-  description = "The list of subnets available to the VPC"
+variable "vpc-subnet" {
+  description = "The subnet available to the VPC"
 }
 
 variable "vpc-azs" {
-  type        = list(any)
-  description = "The ID of the VPC"
+  description = "The availability zone of the region"
 }
 
 variable "cluster-prefix" {
