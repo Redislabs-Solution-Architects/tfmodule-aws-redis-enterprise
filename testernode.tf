@@ -13,7 +13,6 @@ resource "aws_instance" "tester" {
 }
 
 resource "aws_eip" "tester-eip" {
-  vpc   = true
   count = local.tester_count
   tags  = merge({ Name = "${var.vpc-name}-node-eip-${count.index}" }, var.common-tags)
 }

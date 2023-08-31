@@ -16,7 +16,8 @@ module "mymodule" {
   vpc-name         = "jph-prod-vpc"
   ssh-key          = "jph_uswest1.pem"
   allow-public-ssh = 1
-  re-instance-type = "m5.4xlarge"
+  re-instance-type = "t2.2xlarge"
+  tester-node-type = "t2.xlarge"
   enable-flash     = false
   enable-volumes   = false
   vpc-azs          = "us-west-1a"
