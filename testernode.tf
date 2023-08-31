@@ -8,7 +8,7 @@ resource "aws_instance" "tester" {
   source_dest_check      = false
   key_name               = local.ssh_key
   root_block_device { volume_size = var.tester-root-size }
-  tags                   = merge({ Name = "RedisEnterprise-${var.vpc-name}-${count.index}" }, var.common-tags)
+  tags                   = merge({ Name = "Tester-${var.vpc-name}-${count.index}" }, var.common-tags)
 
 }
 
