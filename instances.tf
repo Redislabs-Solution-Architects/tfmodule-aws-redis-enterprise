@@ -13,9 +13,9 @@ resource "aws_instance" "re" {
 }
 
 resource "aws_eip" "re-eip" {
-  vpc   = true
-  count = var.data-node-count
-  tags  = merge({ Name = "${var.vpc-name}-node-eip-${count.index}" }, var.common-tags)
+  domain = "vpc"
+  count  = var.data-node-count
+  tags   = merge({ Name = "${var.vpc-name}-node-eip-${count.index}" }, var.common-tags)
 }
 
 resource "aws_eip_association" "re-eip-assoc" {
