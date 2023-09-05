@@ -12,6 +12,15 @@ variable "common-tags" {
   description = "Tags that go everywhere"
 }
 
+variable "instances_inventory_file" {
+    description = "Path and file name to send inventory details for ansible later."
+    default = "inventory"
+}
+
+variable "ssh-user" {
+    description = "username for ssh.  This is currently not changeable as it is the default"
+    default = "ubuntu"
+}
 variable "open-nets" {
   type        = list(any)
   description = "CIDRs that will have access to everything"
@@ -22,8 +31,9 @@ variable "vpc-cidr" {
   description = "The CIDR of the VPC"
 }
 
-variable "vpc-id" {
-  description = "The ID of the VPC"
+variable "ansible_verbosity_switch" {
+    description = "Set the about of verbosity to pass through to the ansible playbook command. No additional verbosity by default. Example: -v or -vv or -vvv."
+    default = "-vvvv"
 }
 
 variable "vpc-name" {
@@ -36,14 +46,20 @@ variable "ssh-key" {
 }
 
 
-variable "vpc-subnets" {
-  type        = list(any)
-  description = "The list of subnets available to the VPC"
+variable "vpc-subnet" {
+  description = "The subnet available to the VPC"
 }
 
 variable "vpc-azs" {
-  type        = list(any)
-  description = "The ID of the VPC"
+  description = "The availability zone of the region"
+}
+
+variable "cluster-prefix" {
+  description = "the cluster prefix before the zone-name"
+}
+
+variable "zone-name" {
+  description = "the route 53 zone name"
 }
 
 variable "data-node-count" {
@@ -63,7 +79,7 @@ variable "ena-support" {
 
 variable "tester-node-type" {
   description = "Set this to a type if you want to run a tester node"
-  default     = ""
+  default     = "t2.xlarge"
 }
 
 variable "quorum-node-type" {
@@ -77,7 +93,12 @@ variable "re-volume-size" {
 }
 
 variable "node-root-size" {
-  description = "The size of the root volume"
+  description = "The size of the instances root volume"
+  default     = "50"
+}
+
+variable "tester-root-size" {
+  description = "The size of the tester root volume"
   default     = "50"
 }
 
@@ -99,6 +120,12 @@ variable "flash-iops" {
 variable "allow-public-ssh" {
   description = "Allow SSH to be open to the public - disabled by default"
   default     = "0"
+}
+
+# Use this to determine what version of the software gets installed
+variable "re-download-url" {
+  description = "The download link for the redis enterprise software"
+  default     = null
 }
 
 variable "internal-rules" {

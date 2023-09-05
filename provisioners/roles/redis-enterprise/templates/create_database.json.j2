@@ -1,0 +1,32 @@
+{
+	"name": "{{ item.db_name }}",
+	"authentication_redis_pass": "{{ item.db_password }}",
+	"replication": {{ item.db_replication }},
+	"sharding": {{ item.db_sharding }},
+	"shards_count": {{ item.db_shards_count }},
+	"memory_size": {{ item.db_memory_size }},
+	"type": "{{ item.db_type }}",
+	"oss_cluster": {{ item.db_oss_cluster }},
+	"proxy_policy": "{{ item.db_proxy_policy }}",
+	"shards_placement": "{{ item.db_shards_placement }}",
+	"data_persistence": "{{ item.db_persistence }}",
+	"aof_policy": "{{ item.db_aof_policy }}",
+        "module_list": [
+		{
+			"module_name": "ReJSON",
+			"module_args": "",
+			"semantic_version": "{{ item.redisjson_version }}"
+		},
+    		{
+			"module_name": "search",
+			"module_args": "PARTITIONS AUTO",
+			"semantic_version": "{{ item.redisearch_version }}"
+		}],
+	"shard_key_regex": [
+		{
+			"regex": ".*\\{(?<tag>.*)\\}.*"
+			},
+ 		{
+			"regex": "(?<tag>.*)"
+		}]
+}

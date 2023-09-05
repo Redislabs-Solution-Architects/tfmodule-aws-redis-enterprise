@@ -1,6 +1,8 @@
-.terraform/*
-test/.terraform/*
-test/terraform.tfstat*
+.terraform/
+*/.terraform.lock.hcl
+test*/.terraform/*
+test*/terraform.tfstat*
 Gemfile.lock
 ansible/*.retry
 ansible/roles/*
+.idea/

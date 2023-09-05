@@ -1,0 +1,8 @@
+
+- name: All hosts wait for connections
+  wait_for_connection:
+    delay: 30
+    sleep: 5
+    timeout: 600
+  when:
+    - do_wait|bool

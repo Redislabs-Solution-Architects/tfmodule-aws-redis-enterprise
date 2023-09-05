@@ -1,4 +1,22 @@
 ## A TF module to setup what's necessary to run Redis Enterprise
+## To make this work, the following steps should be taken
+* pull in this github
+```bash
+git clone https://github.com/jphaugla/tfmodule-aws-redis-enterprise.git
+cd tfmodule-aws-redis-enterprise
+```
+* edit main.tf in the test subdirectory
+  * most of these fields should be ensured to be correct
+  * can see this is using default profile using .aws directory
+```bash
+cd test
+vi main.tf
+```
+* terraform start
+```bash
+terraform init
+terraform apply
+```
 
 Sourcing the module:
 

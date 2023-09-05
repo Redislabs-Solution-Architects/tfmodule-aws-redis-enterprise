@@ -1,0 +1,15 @@
+- name: install redis tools
+  include_tasks: install-redis-tools.yml
+  when:
+    - install_redis_tools|bool
+
+- name: add github repositories
+  include_tasks: add-github-repos.yml
+  when:
+    - add_github_repos|bool
+
+- name: install java, maven and go
+  include_tasks: install-java-maven-go.yml
+  when:
+    - install_java_maven_go|bool
+

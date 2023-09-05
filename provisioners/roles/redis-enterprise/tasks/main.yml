@@ -1,0 +1,28 @@
+- name: Prepare Redis Nodes
+  include_tasks: prep-redis.yml
+  when:
+    - inventory_hostname in groups['all_node_ips']
+
+- name: API Readiness Check
+  include_tasks: check-readiness.yml
+
+- name: Create Cluster
+  include_tasks: create-cluster.yml
+  when:
+    - inventory_hostname in groups['re_master']
+
+- name: Join Nodes
+  include_tasks: join-cluster.yml
+  when:
+    - inventory_hostname in groups['re_nodes']
+
+- name: Timing issue with creating database
+  wait_for:
+    timeout: 60
+
+- name: Create DB
+  include_tasks: create-db.yml
+  when:
+    - inventory_hostname in groups['re_master']
+
+

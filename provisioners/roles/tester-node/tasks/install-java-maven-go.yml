@@ -1,0 +1,52 @@
+- name: Add Golang PPA
+  apt_repository:
+    repo: 'ppa:longsleep/golang-backports'
+    state: present
+- name: Install Go
+  package:
+    name: golang
+
+- name: create binaries dir
+  file:
+    path: /home/ubuntu/binaries
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+    state: directory
+
+- name: configure java
+  shell:
+   cmd: |
+     cat <<EOF | sudo tee /etc/profile.d/jdk18.sh
+     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
+     EOF
+
+- name: wget maven
+  unarchive:
+    src: https://dlcdn.apache.org/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz
+    dest: /opt
+    remote_src: yes
+
+- name: create simple maven link
+  file:
+   src: /opt/apache-maven-{{ maven_version }}
+   dest:  /opt/maven
+   owner: root
+   group: root
+   state: link
+
+- name: configure maven
+  shell:
+   cmd: |
+     cat <<EOF | sudo tee /etc/profile.d/maven.sh
+     export JAVA_HOME=/usr/lib/jvm/java-18-openjdk-amd64
+     export M2_HOME=/opt/maven
+     export MAVEN_HOME=/opt/maven
+     export PATH=\$PATH:\$M2_HOME/bin
+     EOF
+
+- name: chmod maven
+  file:
+   dest: /etc/profile.d/maven.sh
+   state: touch
+   mode: +x

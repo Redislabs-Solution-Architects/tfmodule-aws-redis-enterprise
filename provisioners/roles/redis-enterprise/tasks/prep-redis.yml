@@ -1,0 +1,61 @@
+- name: create re home dir
+  file:
+    state: directory
+    path: "/redis"
+- name: create download directory
+  file:
+    state: directory
+    path: "/var/tmp/re-download"
+- name: create ephemeral filesystem
+  filesystem:
+    fstype: ext4
+    dev: "/dev/xvdh"
+  when: enable_volumes
+- name: mount ephemeral dir filesystem
+  mount:
+    name: /redis/tmp
+    src: /dev/xvdh
+    fstype: ext4
+    state: mounted
+  when: enable_volumes
+- name: create persistant filesystem
+  filesystem:
+    fstype: ext4
+    dev: "/dev/xvdj"
+  when: enable_volumes
+- name: mount persistant dir filesystem
+  mount:
+    name: /redis/persist
+    src: /dev/xvdj
+    fstype: ext4
+    state: mounted
+  when: enable_volumes
+- name: create flash filesystem
+  filesystem:
+    fstype: ext4
+    dev: "/dev/xvdi"
+  when: enable_flash
+- name: mount flash dir filesystem
+  mount:
+    name: /redis/flash
+    src: /dev/xvdi
+    fstype: ext4
+    state: mounted
+  when: enable_flash
+- name: Unarchive software
+  unarchive: 
+    src: "{{ S3_RE_BINARY }}"
+    dest: /var/tmp/re-download
+    remote_src: yes
+    creates: /opt/redislabs/bin
+- name: Install the software
+  command: "./install.sh -y"
+  args:
+    chdir: /var/tmp/re-download
+    creates: /var/opt/redislabs/log/rlcheck.log
+- name: chown redis dir filesystem
+  file:
+    dest: /redis
+    owner: redislabs
+    group: redislabs
+    recurse: yes

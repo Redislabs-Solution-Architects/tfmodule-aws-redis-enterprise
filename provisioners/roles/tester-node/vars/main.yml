@@ -1,0 +1,5 @@
+install_redis_tools: true
+add_github_repos: true
+#  this works fine but the maven version keeps changing so setting to false
+install_java_maven_go: true
+maven_version: '3.9.4'
