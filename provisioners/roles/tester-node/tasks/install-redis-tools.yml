@@ -1,50 +1,50 @@
 - name: checkout redis git repo
   git:
     repo: 'https://github.com/antirez/redis'
-    dest: /home/ubuntu/redis
+    dest: /home/{{ tester_username }}/redis
 
 - name: redis - Build the default target
   make:
-    chdir: /home/ubuntu/redis
+    chdir: /home/{{ tester_username }}/redis
 
 - name: redis - Run 'install' target as root
   make:
-    chdir: /home/ubuntu/redis
+    chdir: /home/{{ tester_username }}/redis
     target: install
   become: yes
 
 - name: checkout memtier_benchmark git repo
   git:
     repo: 'https://github.com/RedisLabs/memtier_benchmark'
-    dest: /home/ubuntu/memtier_benchmark
+    dest: /home/{{ tester_username }}/memtier_benchmark
 
 - name: memtier - Run the autoconf
   command: autoreconf -ivf
   args:
-    chdir: /home/ubuntu/memtier_benchmark
-    creates: /home/ubuntu/memtier_benchmark/configure
+    chdir: /home/{{ tester_username }}/memtier_benchmark
+    creates: /home/{{ tester_username }}/memtier_benchmark/configure
 
 - name: memtier - Run the configure script first
   command: ./configure
   args:
-    chdir: /home/ubuntu/memtier_benchmark
-    creates: /home/ubuntu/memtier_benchmark/Makefile
+    chdir: /home/{{ tester_username }}/memtier_benchmark
+    creates: /home/{{ tester_username }}/memtier_benchmark/Makefile
 
 - name: memtier - Build the default target
   make:
-    chdir: /home/ubuntu/memtier_benchmark
+    chdir: /home/{{ tester_username }}/memtier_benchmark
 
 - name: Run 'memtier_benchmark install' target as root
   make:
-    chdir: /home/ubuntu/memtier_benchmark
+    chdir: /home/{{ tester_username }}/memtier_benchmark
     target: install
   become: yes
 
-- name: chown ubuntu
+- name: chown {{ tester_username }}
   file:
-    dest: /home/ubuntu
-    owner: ubuntu
-    group: ubuntu
+    dest: /home/{{ tester_username }}
+    owner: "{{ tester_username }}"
+    group: "{{ tester_username }}"
     recurse: yes
 
 - name: Install Redis Insights
@@ -83,9 +83,9 @@
   notify:
     - restart_nginx
  
-- name: chown ubuntu
+- name: chown {{ tester_username }}
   file:
-    dest: /home/ubuntu
-    owner: ubuntu
-    group: ubuntu
+    dest: /home/{{ tester_username }}
+    owner: "{{ tester_username }}"
+    group: "{{ tester_username }}"
     recurse: yes

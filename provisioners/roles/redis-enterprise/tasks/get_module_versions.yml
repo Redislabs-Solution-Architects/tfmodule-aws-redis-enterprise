@@ -1,0 +1,42 @@
+# Check if bootstrap is ready
+
+- name: get module versions
+  uri:
+    url: "{{modules_endpoint}}"
+    method: GET
+    return_content: yes
+    validate_certs: no
+    user: "{{ re_username }}"
+    password: "{{ re_password }}"
+    force_basic_auth: yes
+    follow_redirects: all
+    body_format: json
+    body: json
+    headers:
+        cache-control: no-cache
+  register: modules_output
+
+- name: save modules_output
+  copy:
+    content="{{ (modules_output.content | from_json) }}"
+    dest=modules_output.txt
+
+- name: get redjson version
+  copy: 
+    content: "{{ item }}"
+    dest: redisjson_version.txt
+  loop: "{{ (modules_output.content | from_json) | community.general.json_query(redisjson_query) }}"
+
+- name: get redisearch version
+  copy: 
+    content: "{{ item }}"
+    dest: redisearch_version.txt
+  loop: "{{ (modules_output.content | from_json) | community.general.json_query(redisearch_query) }}"
+
+- name: slurp redisjson
+  shell: cat redisjson_version.txt
+  register: rejson_version
+
+- name: slurp redisearch
+  shell: cat redisearch_version.txt
+  register: research_version 

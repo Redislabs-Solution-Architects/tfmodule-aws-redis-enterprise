@@ -8,9 +8,9 @@
 
 - name: create binaries dir
   file:
-    path: /home/ubuntu/binaries
-    owner: ubuntu
-    group: ubuntu
+    path: /home/{{ tester_username }}/binaries
+    owner: "{{ tester_username }}"
+    group: "{{ tester_username }}"
     mode: '0755'
     state: directory
 

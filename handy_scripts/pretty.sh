@@ -1,0 +1,1 @@
+cat outit.json| jq '.'

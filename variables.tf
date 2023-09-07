@@ -33,7 +33,7 @@ variable "vpc-cidr" {
 
 variable "ansible_verbosity_switch" {
     description = "Set the about of verbosity to pass through to the ansible playbook command. No additional verbosity by default. Example: -v or -vv or -vvv."
-    default = "-vvvv"
+    default = "-vv"
 }
 
 variable "vpc-name" {

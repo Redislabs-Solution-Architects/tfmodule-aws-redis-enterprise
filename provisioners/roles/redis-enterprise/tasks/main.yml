@@ -2,27 +2,41 @@
   include_tasks: prep-redis.yml
   when:
     - inventory_hostname in groups['all_node_ips']
+    - prep_redis|bool
 
 - name: API Readiness Check
-  include_tasks: check-readiness.yml
+  include_tasks: check-readiness.yml 
+  when:
+    - create_redis|bool
 
 - name: Create Cluster
   include_tasks: create-cluster.yml
   when:
     - inventory_hostname in groups['re_master']
+    - create_redis|bool
 
 - name: Join Nodes
   include_tasks: join-cluster.yml
   when:
     - inventory_hostname in groups['re_nodes']
+    - create_redis|bool
 
 - name: Timing issue with creating database
   wait_for:
     timeout: 60
+  when:
+    - create_redis|bool
+
+- name: get module versions
+  include_tasks: get_module_versions.yml
+  when:
+    - inventory_hostname in groups['re_master']
+    - create_database|bool
 
 - name: Create DB
   include_tasks: create-db.yml
   when:
     - inventory_hostname in groups['re_master']
+    - create_database|bool
 
 
